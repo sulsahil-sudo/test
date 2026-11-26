@@ -10,16 +10,16 @@ body{
 font-family:Tahoma,sans-serif;
 background:#fff5fa;
 padding:20px;
-position:relative;
+margin:0;
 }
 
 .close-btn{
 position:fixed;
 top:15px;
 right:15px;
-width:42px;
-height:42px;
-line-height:42px;
+width:40px;
+height:40px;
+line-height:40px;
 text-align:center;
 background:#e53935;
 color:#fff;
@@ -37,17 +37,17 @@ background:#fff;
 padding:20px;
 border-radius:20px;
 box-shadow:0 0 15px #ddd;
-text-align:center;
 }
 
 h2{
-font-size:28px;
+text-align:center;
+font-size:26px;
 margin-bottom:20px;
 }
 
 label{
 display:block;
-font-size:18px;
+font-size:16px;
 font-weight:bold;
 margin:12px 0 8px;
 }
@@ -56,7 +56,6 @@ input{
 width:100%;
 padding:14px;
 font-size:18px;
-text-align:center;
 border:1px solid #ddd;
 border-radius:12px;
 box-sizing:border-box;
@@ -66,7 +65,7 @@ button{
 width:100%;
 padding:14px;
 margin-top:15px;
-font-size:20px;
+font-size:18px;
 background:#d63384;
 color:#fff;
 border:none;
@@ -80,9 +79,10 @@ margin-top:20px;
 padding:15px;
 background:#fff0f6;
 border-radius:12px;
-font-size:18px;
+font-size:16px;
 font-weight:bold;
-line-height:1.8;
+line-height:1.7;
+text-align:center;
 }
 </style>
 </head>
@@ -110,73 +110,65 @@ line-height:1.8;
 <script>
 function calc(){
 
-const last=document.getElementById("lastPeriod").value;
+const last =
+document.getElementById("lastPeriod").value;
 
 if(!last){
 alert("اختر تاريخ بداية الدورة");
 return;
 }
 
-const cycle=Number(document.getElementById("cycleLength").value);
+const cycle =
+Number(document.getElementById("cycleLength").value);
 
-let nextDate=new Date(last);
-nextDate.setDate(nextDate.getDate()+cycle);
+let nextDate = new Date(last);
 
-const dayName=nextDate.toLocaleDateString(
+nextDate.setDate(
+nextDate.getDate() + cycle
+);
+
+const dayName =
+nextDate.toLocaleDateString(
 "ar-SA-u-ca-gregory",
 {weekday:"long"}
 );
 
-const day=nextDate.getDate();
+const day =
+nextDate.getDate();
 
-const monthNumber=nextDate.getMonth()+1;
+const monthNumber =
+nextDate.getMonth() + 1;
 
-const monthName=nextDate.toLocaleDateString(
+const monthName =
+nextDate.toLocaleDateString(
 "ar-SA-u-ca-gregory",
 {month:"long"}
 );
 
-const year=nextDate.getFullYear();
+const year =
+nextDate.getFullYear();
 
-const hijriParts=new Intl.DateTimeFormat(
-'ar-SA-u-ca-islamic-nu-latn',
+const hijri =
+new Intl.DateTimeFormat(
+"ar-SA-u-ca-islamic",
 {
-day:'numeric',
-month:'numeric',
-year:'numeric'
+day:"numeric",
+month:"long",
+year:"numeric"
 }
-).format(nextDate).split('/');
+).format(nextDate);
 
-const hijriDay=hijriParts[0];
-const hijriMonth=hijriParts[1];
-const hijriYear=hijriParts[2];
+const result =
+document.getElementById("result");
 
-const hijriMonthNames={
-1:'محرم',
-2:'صفر',
-3:'ربيع الأول',
-4:'ربيع الآخر',
-5:'جمادى الأولى',
-6:'جمادى الآخرة',
-7:'رجب',
-8:'شعبان',
-9:'رمضان',
-10:'شوال',
-11:'ذو القعدة',
-12:'ذو الحجة'
-};
+result.style.display = "block";
 
-const result=document.getElementById("result");
-
-result.style.display="block";
-
-result.innerHTML=
-`
+result.innerHTML = `
 📅 موعد الدورة القادمة<br>
 ${dayName} ${day} - ${monthNumber} (${monthName}) ${year}
 <br><br>
 📿 الموافق هجري<br>
-${hijriDay} - ${hijriMonth} (${hijriMonthNames[Number(hijriMonth)]}) ${hijriYear} هـ
+${hijri}
 `;
 
 result.scrollIntoView({
