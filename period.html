@@ -14,7 +14,7 @@ position:relative;
 }
 
 .close-btn{
-position:absolute;
+position:fixed;
 top:15px;
 right:15px;
 width:42px;
@@ -27,6 +27,7 @@ text-decoration:none;
 border-radius:50%;
 font-size:18px;
 font-weight:bold;
+z-index:999;
 }
 
 .box{
@@ -81,7 +82,7 @@ background:#fff0f6;
 border-radius:12px;
 font-size:18px;
 font-weight:bold;
-line-height:1.6;
+line-height:1.8;
 }
 </style>
 </head>
@@ -137,14 +138,33 @@ const monthName=nextDate.toLocaleDateString(
 
 const year=nextDate.getFullYear();
 
-const hijri=new Intl.DateTimeFormat(
-"ar-SA-u-ca-islamic",
+const hijriParts=new Intl.DateTimeFormat(
+'ar-SA-u-ca-islamic-nu-latn',
 {
-day:"numeric",
-month:"long",
-year:"numeric"
+day:'numeric',
+month:'numeric',
+year:'numeric'
 }
-).format(nextDate);
+).format(nextDate).split('/');
+
+const hijriDay=hijriParts[0];
+const hijriMonth=hijriParts[1];
+const hijriYear=hijriParts[2];
+
+const hijriMonthNames={
+1:'محرم',
+2:'صفر',
+3:'ربيع الأول',
+4:'ربيع الآخر',
+5:'جمادى الأولى',
+6:'جمادى الآخرة',
+7:'رجب',
+8:'شعبان',
+9:'رمضان',
+10:'شوال',
+11:'ذو القعدة',
+12:'ذو الحجة'
+};
 
 const result=document.getElementById("result");
 
@@ -156,7 +176,7 @@ result.innerHTML=
 ${dayName} ${day} - ${monthNumber} (${monthName}) ${year}
 <br><br>
 📿 الموافق هجري<br>
-${hijri}
+${hijriDay} - ${hijriMonth} (${hijriMonthNames[Number(hijriMonth)]}) ${hijriYear} هـ
 `;
 
 result.scrollIntoView({
