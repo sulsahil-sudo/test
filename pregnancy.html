@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حاسبة الحمل</title>
+
+<style>
+body{
+font-family:Tahoma,sans-serif;
+background:#fff5fa;
+margin:0;
+padding:20px;
+}
+
+.close{
+position:fixed;
+top:15px;
+right:15px;
+width:45px;
+height:45px;
+line-height:45px;
+text-align:center;
+background:#e74c3c;
+color:#fff;
+text-decoration:none;
+border-radius:50%;
+font-size:22px;
+font-weight:bold;
+}
+
+.box{
+max-width:500px;
+margin:70px auto;
+background:#fff;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 10px #ddd;
+}
+
+h2{
+text-align:center;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin:10px 0;
+}
+
+input,button{
+width:100%;
+padding:14px;
+font-size:18px;
+border-radius:10px;
+box-sizing:border-box;
+}
+
+button{
+background:#d63384;
+color:#fff;
+border:none;
+margin-top:15px;
+}
+
+#result{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#fff0f6;
+border-radius:12px;
+text-align:center;
+line-height:2;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="close">✖</a>
+
+<div class="box">
+
+<h2>🤰 حاسبة الحمل</h2>
+
+<label>أول يوم من آخر دورة شهرية</label>
+
+<input type="date" id="lastPeriod">
+
+<button onclick="calcPregnancy()">
+احسب
+</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+function calcPregnancy(){
+
+const last=
+document.getElementById("lastPeriod").value;
+
+if(!last){
+alert("اختر أول يوم من آخر دورة");
+return;
+}
+
+const startDate=new Date(last);
+const today=new Date();
+
+const diffDays=Math.floor(
+(today-startDate)/(1000*60*60*24)
+);
+
+const weeks=Math.floor(diffDays/7);
+const days=diffDays%7;
+
+const dueDate=new Date(startDate);
+
+dueDate.setDate(
+dueDate.getDate()+280
+);
+
+const dueDay=dueDate.getDate();
+const dueMonth=dueDate.getMonth()+1;
+const dueYear=dueDate.getFullYear();
+
+const result=
+document.getElementById("result");
+
+result.style.display="block";
+
+result.innerHTML=`
+🤰 عمر الحمل الحالي
+
+<br><br>
+
+${weeks} أسبوع و ${days} يوم
+
+<br><br>
+
+👶 موعد الولادة المتوقع
+
+<br><br>
+
+${dueDay}-${dueMonth}-${dueYear}
+`;
+
+result.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+}
+</script>
+
+</body>
+</html>
