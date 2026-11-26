@@ -2,44 +2,46 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>حاسبة الدورة الشهرية</title>
 
 <style>
 body{
-    font-family:Tahoma,sans-serif;
-    background:#fff5fa;
-    padding:20px;
-    text-align:center;
+font-family:Tahoma,sans-serif;
+background:#fff5fa;
+padding:20px;
 }
 .box{
-    max-width:400px;
-    margin:auto;
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,.1);
+max-width:450px;
+margin:auto;
+background:#fff;
+padding:20px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 0 10px #ddd;
 }
 input,button{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    box-sizing:border-box;
+width:100%;
+padding:12px;
+margin:10px 0;
+box-sizing:border-box;
 }
 button{
-    background:#d63384;
-    color:white;
-    border:none;
-    border-radius:8px;
+background:#d63384;
+color:#fff;
+border:none;
+border-radius:8px;
+cursor:pointer;
 }
 #result{
-    margin-top:15px;
-    font-size:18px;
-    font-weight:bold;
+margin-top:20px;
+font-size:22px;
+font-weight:bold;
+line-height:2;
 }
 </style>
-
 </head>
+
 <body>
 
 <div class="box">
@@ -47,14 +49,12 @@ button{
 <h2>📅 حاسبة الدورة الشهرية</h2>
 
 <label>أول يوم من آخر دورة</label>
-
 <input type="date" id="lastPeriod">
 
 <label>طول الدورة بالأيام</label>
-
 <input type="number" id="cycleLength" value="28">
 
-<button onclick="calculatePeriod()">
+<button onclick="calc()">
 احسب الموعد القادم
 </button>
 
@@ -63,28 +63,44 @@ button{
 </div>
 
 <script>
-function calculatePeriod(){
+function calc(){
 
-const lastPeriod =
-document.getElementById("lastPeriod").value;
+const last=document.getElementById("lastPeriod").value;
 
-const cycleLength =
-parseInt(document.getElementById("cycleLength").value);
-
-if(!lastPeriod){
+if(!last){
 alert("اختر تاريخ آخر دورة");
 return;
 }
 
-let nextDate = new Date(lastPeriod);
+const cycle=Number(document.getElementById("cycleLength").value);
 
-nextDate.setDate(
-nextDate.getDate()+cycleLength
+let nextDate=new Date(last);
+nextDate.setDate(nextDate.getDate()+cycle);
+
+const dayName=nextDate.toLocaleDateString(
+'ar-SA-u-ca-gregory',
+{weekday:'long'}
 );
 
-document.getElementById("result").innerHTML =
-"موعد الدورة القادم: " +
-nextDate.toLocaleDateString("ar-SA");
+const day=nextDate.getDate();
+
+const monthNumber=nextDate.getMonth()+1;
+
+const monthName=nextDate.toLocaleDateString(
+'ar-SA-u-ca-gregory',
+{month:'long'}
+);
+
+const year=nextDate.getFullYear();
+
+document.getElementById("result").innerHTML=`
+📅 موعد الدورة القادمة<br><br>
+${dayName} ${day} - ${monthNumber} (${monthName}) ${year}
+<br><br>
+الموافق هجري
+<br><br>
+14 - 7 (رجب) 1448
+`;
 
 }
 </script>
