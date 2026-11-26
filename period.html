@@ -10,24 +10,26 @@ body{
 font-family:Tahoma,sans-serif;
 background:#fff5fa;
 padding:20px;
-position:relative;
+margin:0;
 }
 
 .close-btn{
 position:fixed;
 top:15px;
 right:15px;
-width:42px;
-height:42px;
-line-height:42px;
-text-align:center;
+width:45px;
+height:45px;
+display:flex;
+align-items:center;
+justify-content:center;
 background:#e53935;
 color:#fff;
 text-decoration:none;
 border-radius:50%;
-font-size:18px;
+font-size:24px;
 font-weight:bold;
-z-index:999;
+z-index:99999;
+box-shadow:0 3px 10px rgba(0,0,0,.2);
 }
 
 .box{
@@ -97,11 +99,11 @@ color:#666;
 
 <body>
 
-<a href="index.html" class="close-btn">✖</a>
+<a href="index.html" class="close-btn">✕</a>
 
 <div class="box">
 
-<h2>📅 حاسبة الدورة الشهرية</h2>
+<h2>🩸 حاسبة الدورة الشهرية</h2>
 
 <label>بداية الدورة الشهرية</label>
 <input type="date" id="lastPeriod">
@@ -177,49 +179,14 @@ const monthName=nextDate.toLocaleDateString(
 
 const year=nextDate.getFullYear();
 
-const hijriParts=new Intl.DateTimeFormat(
-'ar-SA-u-ca-islamic-nu-latn',
-{
-day:'numeric',
-month:'numeric',
-year:'numeric'
-}
-).format(nextDate).split('/');
-
-const hijriDay=hijriParts[0];
-const hijriMonth=hijriParts[1];
-const hijriYear=hijriParts[2];
-
-const hijriMonthNames={
-1:'محرم',
-2:'صفر',
-3:'ربيع الأول',
-4:'ربيع الآخر',
-5:'جمادى الأولى',
-6:'جمادى الآخرة',
-7:'رجب',
-8:'شعبان',
-9:'رمضان',
-10:'شوال',
-11:'ذو القعدة',
-12:'ذو الحجة'
-};
-
 const result=document.getElementById("result");
 
 result.style.display="block";
 
-result.innerHTML=
-`
-📅 موعد الدورة القادمة<br>
-${dayName} ${day} - ${monthNumber} (${monthName}) ${year}
-
-<br><br>
-
-📿 الموافق هجري<br>
-${hijriDay} - ${hijriMonth}
-(${hijriMonthNames[Number(hijriMonth)]})
-${hijriYear} هـ
+result.innerHTML=`
+📅 موعد الدورة القادمة<br><br>
+${dayName}<br>
+${day}/${monthNumber}/${year}
 `;
 
 result.scrollIntoView({
