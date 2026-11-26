@@ -2,163 +2,226 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>حاسبة الخصوبة</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Tahoma,sans-serif;
-}
-
 body{
-    background:#f7f8fc;
-    padding:20px;
+font-family:Tahoma,sans-serif;
+background:#fff5fa;
+margin:0;
+padding:20px;
 }
 
-.container{
-    max-width:500px;
-    margin:auto;
+.close{
+position:fixed;
+top:15px;
+right:15px;
+width:45px;
+height:45px;
+line-height:45px;
+text-align:center;
+background:#e74c3c;
+color:#fff;
+text-decoration:none;
+border-radius:50%;
+font-size:22px;
+font-weight:bold;
 }
 
-.card{
-    background:#fff;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
+.box{
+max-width:500px;
+margin:70px auto;
+background:#fff;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 15px #ddd;
 }
 
-h1{
-    text-align:center;
-    color:#e91e63;
-    margin-bottom:20px;
+h2{
+text-align:center;
+color:#e91e63;
 }
 
 label{
-    display:block;
-    margin-top:15px;
-    margin-bottom:6px;
-    font-weight:bold;
+display:block;
+margin:12px 0 8px;
+font-weight:bold;
 }
 
-input{
-    width:100%;
-    padding:12px;
-    border:1px solid #ddd;
-    border-radius:10px;
+input,select{
+width:100%;
+padding:14px;
+font-size:18px;
+border:1px solid #ddd;
+border-radius:12px;
+box-sizing:border-box;
 }
 
 button{
-    width:100%;
-    margin-top:20px;
-    padding:14px;
-    border:none;
-    border-radius:10px;
-    background:#e91e63;
-    color:#fff;
-    font-size:16px;
-    cursor:pointer;
+width:100%;
+padding:14px;
+margin-top:15px;
+font-size:18px;
+background:#e91e63;
+color:#fff;
+border:none;
+border-radius:12px;
+cursor:pointer;
 }
 
-button:hover{
-    background:#d81b60;
-}
-
-.result{
-    margin-top:20px;
-    padding:15px;
-    border-radius:10px;
-    background:#fff3f7;
-    line-height:2;
-    display:none;
-}
-
-.result div{
-    margin-bottom:8px;
+#result{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#fff0f6;
+border-radius:12px;
+line-height:2;
+font-weight:bold;
+text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<a href="index.html" class="close">✖</a>
 
-<div class="card">
+<div class="box">
 
-<h1>🌸 حاسبة الخصوبة</h1>
+<h2>🌸 حاسبة الخصوبة</h2>
 
-<label>تاريخ أول يوم من آخر دورة</label>
+<label>أول يوم من آخر دورة شهرية</label>
 <input type="date" id="lastPeriod">
 
-<label>طول الدورة (بالأيام)</label>
-<input type="number" id="cycleLength" value="28" min="21" max="45">
+<label>طول الدورة بالأيام</label>
+
+<select id="cycleLength">
+<option value="21">21 يوم</option>
+<option value="22">22 يوم</option>
+<option value="23">23 يوم</option>
+<option value="24">24 يوم</option>
+<option value="25">25 يوم</option>
+<option value="26">26 يوم</option>
+<option value="27">27 يوم</option>
+<option value="28" selected>28 يوم</option>
+<option value="29">29 يوم</option>
+<option value="30">30 يوم</option>
+<option value="31">31 يوم</option>
+<option value="32">32 يوم</option>
+<option value="33">33 يوم</option>
+<option value="34">34 يوم</option>
+<option value="35">35 يوم</option>
+</select>
 
 <button onclick="calculateFertility()">
-حساب أيام الخصوبة
+حساب الخصوبة
 </button>
 
-<div class="result" id="result"></div>
-
-</div>
+<div id="result"></div>
 
 </div>
 
 <script>
+function formatDate(date){
+
+const day=date.getDate();
+
+const month=date.getMonth()+1;
+
+const monthName=date.toLocaleDateString(
+"ar-SA-u-ca-gregory",
+{month:"long"}
+);
+
+const year=date.getFullYear();
+
+return `${day}-${month} (${monthName}) - ${year}`;
+}
 
 function calculateFertility(){
 
-    const periodDate =
-        document.getElementById("lastPeriod").value;
+const periodDate=
+document.getElementById("lastPeriod").value;
 
-    const cycleLength =
-        parseInt(document.getElementById("cycleLength").value);
-
-    if(!periodDate){
-        alert("يرجى اختيار تاريخ الدورة");
-        return;
-    }
-
-    const lastPeriod = new Date(periodDate);
-
-    const ovulation = new Date(lastPeriod);
-    ovulation.setDate(
-        ovulation.getDate() + (cycleLength - 14)
-    );
-
-    const fertileStart = new Date(ovulation);
-    fertileStart.setDate(
-        fertileStart.getDate() - 5
-    );
-
-    const fertileEnd = new Date(ovulation);
-    fertileEnd.setDate(
-        fertileEnd.getDate() + 1
-    );
-
-    const nextPeriod = new Date(lastPeriod);
-    nextPeriod.setDate(
-        nextPeriod.getDate() + cycleLength
-    );
-
-    document.getElementById("result").style.display="block";
-
-    document.getElementById("result").innerHTML = `
-        <div>🌼 يوم التبويض المتوقع:
-        <strong>${ovulation.toLocaleDateString('ar-SA')}</strong></div>
-
-        <div>💖 بداية فترة الخصوبة:
-        <strong>${fertileStart.toLocaleDateString('ar-SA')}</strong></div>
-
-        <div>💖 نهاية فترة الخصوبة:
-        <strong>${fertileEnd.toLocaleDateString('ar-SA')}</strong></div>
-
-        <div>📅 موعد الدورة القادمة:
-        <strong>${nextPeriod.toLocaleDateString('ar-SA')}</strong></div>
-    `;
+if(!periodDate){
+alert("اختر تاريخ أول يوم من آخر دورة");
+return;
 }
 
+const cycleLength=
+parseInt(
+document.getElementById("cycleLength").value
+);
+
+const lastPeriod=
+new Date(periodDate);
+
+const ovulation=
+new Date(lastPeriod);
+
+ovulation.setDate(
+ovulation.getDate()+cycleLength-14
+);
+
+const fertileStart=
+new Date(ovulation);
+
+fertileStart.setDate(
+fertileStart.getDate()-5
+);
+
+const fertileEnd=
+new Date(ovulation);
+
+fertileEnd.setDate(
+fertileEnd.getDate()+1
+);
+
+const nextPeriod=
+new Date(lastPeriod);
+
+nextPeriod.setDate(
+nextPeriod.getDate()+cycleLength
+);
+
+const result=
+document.getElementById("result");
+
+result.style.display="block";
+
+result.innerHTML=`
+🩸 يوم التبويض المتوقع
+<br><br>
+${formatDate(ovulation)}
+
+<br><br>
+
+🌸 فترة الخصوبة
+<br><br>
+من ${formatDate(fertileStart)}
+<br>
+إلى ${formatDate(fertileEnd)}
+
+<br><br>
+
+❤️ أفضل أيام الحمل
+<br><br>
+قبل يوم التبويض بيومين ويوم التبويض نفسه
+
+<br><br>
+
+📅 موعد الدورة القادمة
+<br><br>
+${formatDate(nextPeriod)}
+`;
+
+result.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+}
 </script>
 
 </body>
