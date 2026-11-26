@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>حاسبة عمر الطفل</title>
+<title>حاسبة نمو الجنين</title>
 
 <style>
 body{
@@ -22,17 +22,18 @@ height:45px;
 line-height:45px;
 text-align:center;
 background:#e74c3c;
-color:white;
+color:#fff;
 text-decoration:none;
 border-radius:50%;
 font-size:22px;
 font-weight:bold;
+z-index:999;
 }
 
 .box{
 max-width:500px;
 margin:70px auto;
-background:white;
+background:#fff;
 padding:20px;
 border-radius:20px;
 box-shadow:0 0 15px #ddd;
@@ -89,14 +90,14 @@ text-align:center;
 
 <div class="box">
 
-<h2>🍼 حاسبة عمر الطفل</h2>
+<h2>👶 حاسبة نمو الجنين</h2>
 
-<label>تاريخ ميلاد الطفل</label>
+<label>أول يوم من آخر دورة شهرية</label>
 
-<input type="date" id="birthDate">
+<input type="date" id="lastPeriod">
 
-<button onclick="calcAge()">
-احسب العمر
+<button onclick="calcGrowth()">
+احسب
 </button>
 
 <div id="result"></div>
@@ -104,79 +105,108 @@ text-align:center;
 </div>
 
 <script>
-function calcAge(){
+function calcGrowth(){
 
-const birth=
-document.getElementById("birthDate").value;
+const last =
+document.getElementById("lastPeriod").value;
 
-if(!birth){
-alert("اختر تاريخ ميلاد الطفل");
+if(!last){
+alert("اختر أول يوم من آخر دورة");
 return;
 }
 
-const birthDate=
-new Date(birth);
+const startDate =
+new Date(last);
 
-const today=
+const today =
 new Date();
 
-const totalDays=
-Math.floor(
-(today-birthDate)/(1000*60*60*24)
-);
-
-const result=
+const result =
 document.getElementById("result");
 
-result.style.display="block";
+result.style.display = "block";
 
-if(totalDays < 30){
+if(startDate > today){
 
-result.innerHTML=`
-🍼 عمر الطفل الحالي
-
-<br><br>
-
-${totalDays} يوم
-`;
-
-}else{
-
-let years=
-today.getFullYear()-birthDate.getFullYear();
-
-let months=
-today.getMonth()-birthDate.getMonth();
-
-let days=
-today.getDate()-birthDate.getDate();
-
-if(days<0){
-months--;
-days+=30;
-}
-
-if(months<0){
-years--;
-months+=12;
-}
-
-result.innerHTML=`
-🍼 عمر الطفل الحالي
+result.innerHTML = `
+⚠️ لا يمكن إدخال تاريخ مستقبلي
 
 <br><br>
 
-${years} سنة
-
-<br>
-
-${months} شهر
-
-<br>
-
-${days} يوم
+الرجاء اختيار تاريخ صحيح.
 `;
+
+return;
 }
+
+const days =
+Math.floor(
+(today - startDate) / (1000 * 60 * 60 * 24)
+);
+
+const weeks =
+Math.floor(days / 7);
+
+if(weeks > 42){
+
+result.innerHTML = `
+⚠️ التاريخ المُدخل لا يمثل حملاً حالياً
+
+<br><br>
+
+الرجاء إدخال أول يوم من آخر دورة لحمل قائم.
+`;
+
+return;
+}
+
+let size = "";
+
+if(weeks <= 4)
+size = "بذرة صغيرة";
+
+else if(weeks <= 8)
+size = "حبة فاصوليا";
+
+else if(weeks <= 12)
+size = "حبة ليمون";
+
+else if(weeks <= 16)
+size = "ثمرة أفوكادو";
+
+else if(weeks <= 20)
+size = "ثمرة موز";
+
+else if(weeks <= 24)
+size = "حبة ذرة";
+
+else if(weeks <= 28)
+size = "باذنجان";
+
+else if(weeks <= 32)
+size = "جوز الهند";
+
+else if(weeks <= 36)
+size = "خس";
+
+else
+size = "جاهز للولادة تقريباً";
+
+result.innerHTML = `
+👶 عمر الجنين الحالي
+
+<br><br>
+
+الأسبوع ${weeks}
+
+<br><br>
+
+📏 الحجم التقريبي
+
+<br><br>
+
+${size}
+`;
 
 result.scrollIntoView({
 behavior:"smooth",
