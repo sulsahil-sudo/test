@@ -9,26 +9,25 @@
 body{
 font-family:Tahoma,sans-serif;
 background:#fff5fa;
-padding:20px;
 margin:0;
+padding:20px;
 }
 
 .close-btn{
 position:fixed;
 top:15px;
 right:15px;
-width:45px;
-height:45px;
-display:flex;
-align-items:center;
-justify-content:center;
+width:42px;
+height:42px;
+line-height:42px;
+text-align:center;
 background:#e53935;
 color:#fff;
 text-decoration:none;
 border-radius:50%;
-font-size:24px;
+font-size:18px;
 font-weight:bold;
-z-index:99999;
+z-index:999;
 }
 
 .box{
@@ -38,37 +37,36 @@ background:#fff;
 padding:20px;
 border-radius:20px;
 box-shadow:0 0 15px #ddd;
-text-align:center;
 }
 
 h2{
-font-size:28px;
+text-align:center;
+font-size:26px;
 margin-bottom:20px;
 }
 
 label{
 display:block;
-font-size:18px;
+font-size:16px;
 font-weight:bold;
 margin:12px 0 8px;
 }
 
-input,
-select{
+input,select{
 width:100%;
 padding:14px;
 font-size:18px;
-text-align:center;
 border:1px solid #ddd;
 border-radius:12px;
 box-sizing:border-box;
+background:#fff;
 }
 
 button{
 width:100%;
 padding:14px;
 margin-top:15px;
-font-size:20px;
+font-size:18px;
 background:#d63384;
 color:#fff;
 border:none;
@@ -84,31 +82,26 @@ background:#fff0f6;
 border-radius:12px;
 font-size:18px;
 font-weight:bold;
-line-height:1.4;
-}
-
-.result-title{
-font-size:24px;
-margin-bottom:10px;
+line-height:1.8;
+text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<a href="index.html" class="close-btn">✕</a>
+<a href="index.html" class="close-btn">✖</a>
 
 <div class="box">
 
-<h2>🩸 حاسبة الدورة الشهرية</h2>
+<h2>📅 حاسبة الدورة الشهرية</h2>
 
-<label>بداية الدورة الشهرية</label>
+<label>أول يوم من آخر دورة شهرية</label>
 <input type="date" id="lastPeriod">
 
 <label>طول الدورة بالأيام</label>
 
 <select id="cycleLength">
-<option value="28" selected>28 يوم</option>
 <option value="21">21 يوم</option>
 <option value="22">22 يوم</option>
 <option value="23">23 يوم</option>
@@ -116,6 +109,7 @@ margin-bottom:10px;
 <option value="25">25 يوم</option>
 <option value="26">26 يوم</option>
 <option value="27">27 يوم</option>
+<option value="28" selected>28 يوم (الأشهر)</option>
 <option value="29">29 يوم</option>
 <option value="30">30 يوم</option>
 <option value="31">31 يوم</option>
@@ -123,16 +117,6 @@ margin-bottom:10px;
 <option value="33">33 يوم</option>
 <option value="34">34 يوم</option>
 <option value="35">35 يوم</option>
-<option value="36">36 يوم</option>
-<option value="37">37 يوم</option>
-<option value="38">38 يوم</option>
-<option value="39">39 يوم</option>
-<option value="40">40 يوم</option>
-<option value="41">41 يوم</option>
-<option value="42">42 يوم</option>
-<option value="43">43 يوم</option>
-<option value="44">44 يوم</option>
-<option value="45">45 يوم</option>
 </select>
 
 <button onclick="calc()">احسب</button>
@@ -144,78 +128,61 @@ margin-bottom:10px;
 <script>
 function calc(){
 
-const last=document.getElementById("lastPeriod").value;
+const last =
+document.getElementById("lastPeriod").value;
 
 if(!last){
-alert("اختر تاريخ بداية الدورة");
+alert("اختر أول يوم من آخر دورة شهرية");
 return;
 }
 
-const cycle=Number(document.getElementById("cycleLength").value);
+const cycle =
+Number(document.getElementById("cycleLength").value);
 
-let nextDate=new Date(last);
-nextDate.setDate(nextDate.getDate()+cycle);
+let nextDate = new Date(last);
 
-const dayName=nextDate.toLocaleDateString(
-"ar-SA-u-ca-gregory",
-{weekday:"long"}
+nextDate.setDate(
+nextDate.getDate() + cycle
 );
 
-const day=nextDate.getDate();
+const day =
+nextDate.getDate();
 
-const monthNumber=nextDate.getMonth()+1;
+const month =
+nextDate.getMonth() + 1;
 
-const monthName=nextDate.toLocaleDateString(
-"ar-SA-u-ca-gregory",
-{month:"long"}
-);
+const year =
+nextDate.getFullYear();
 
-const year=nextDate.getFullYear();
-
-const hijriNumeric=new Intl.DateTimeFormat(
-'ar-SA-u-ca-islamic-nu-latn',
+const hijriFull =
+new Intl.DateTimeFormat(
+"ar-SA-u-ca-islamic",
 {
-day:'numeric',
-month:'numeric',
-year:'numeric'
+day:"numeric",
+month:"long",
+year:"numeric"
 }
 ).format(nextDate);
 
-const hijriText=new Intl.DateTimeFormat(
-'ar-SA-u-ca-islamic',
-{
-day:'numeric',
-month:'long',
-year:'numeric'
-}
-).format(nextDate);
+const result =
+document.getElementById("result");
 
-const result=document.getElementById("result");
+result.style.display = "block";
 
-result.style.display="block";
-
-result.innerHTML=`
-<div class="result-title">
+result.innerHTML = `
 📅 موعد الدورة القادمة
-</div>
 
-${dayName}<br><br>
+<br><br>
 
-${day}/${monthNumber}/${year}<br>
+${day}-${month}-${year}
 
-${monthNumber} - ${monthName} - ${year}
-
-<hr style="margin:12px 0;border:none;border-top:1px solid #ddd;">
+<br><br>
 
 📿 الموافق هجري
 
 <br><br>
 
-${hijriNumeric} هـ
-
-<br>
-
-${hijriText} هـ
+${hijriFull}
 `;
 
 result.scrollIntoView({
