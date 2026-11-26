@@ -29,7 +29,6 @@ border-radius:50%;
 font-size:24px;
 font-weight:bold;
 z-index:99999;
-box-shadow:0 3px 10px rgba(0,0,0,.2);
 }
 
 .box{
@@ -85,12 +84,12 @@ background:#fff0f6;
 border-radius:12px;
 font-size:18px;
 font-weight:bold;
-line-height:2;
+line-height:1.4;
 }
 
 .result-title{
 font-size:24px;
-margin-bottom:15px;
+margin-bottom:10px;
 }
 </style>
 </head>
@@ -173,62 +172,50 @@ const monthName=nextDate.toLocaleDateString(
 
 const year=nextDate.getFullYear();
 
-const hijriParts=new Intl.DateTimeFormat(
+const hijriNumeric=new Intl.DateTimeFormat(
 'ar-SA-u-ca-islamic-nu-latn',
 {
 day:'numeric',
 month:'numeric',
 year:'numeric'
 }
-).format(nextDate).split('/');
+).format(nextDate);
 
-const hijriDay=hijriParts[0];
-const hijriMonth=hijriParts[1];
-const hijriYear=hijriParts[2];
-
-const hijriMonthNames={
-1:'محرم',
-2:'صفر',
-3:'ربيع الأول',
-4:'ربيع الآخر',
-5:'جمادى الأولى',
-6:'جمادى الآخرة',
-7:'رجب',
-8:'شعبان',
-9:'رمضان',
-10:'شوال',
-11:'ذو القعدة',
-12:'ذو الحجة'
-};
+const hijriText=new Intl.DateTimeFormat(
+'ar-SA-u-ca-islamic',
+{
+day:'numeric',
+month:'long',
+year:'numeric'
+}
+).format(nextDate);
 
 const result=document.getElementById("result");
 
 result.style.display="block";
 
 result.innerHTML=`
-<div class="result-title">📅 موعد الدورة القادمة</div>
+<div class="result-title">
+📅 موعد الدورة القادمة
+</div>
 
-${dayName}
+${dayName}<br><br>
 
-<br><br>
+${day}/${monthNumber}/${year}<br>
 
-${day} / ${monthNumber} / ${year}
+${monthNumber} - ${monthName} - ${year}
 
-<br>
-
-${monthName} ${year}
-
-<br><br>
+<hr style="margin:12px 0;border:none;border-top:1px solid #ddd;">
 
 📿 الموافق هجري
 
 <br><br>
 
-${hijriDay} / ${hijriMonth} / ${hijriYear}
+${hijriNumeric} هـ
 
 <br>
 
-${hijriMonthNames[Number(hijriMonth)]} ${hijriYear} هـ
+${hijriText} هـ
 `;
 
 result.scrollIntoView({
