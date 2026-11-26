@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حاسبة أفضل أيام الحمل</title>
+
+<style>
+body{
+font-family:Tahoma,sans-serif;
+background:#fff5fa;
+margin:0;
+padding:20px;
+}
+
+.close{
+position:fixed;
+top:15px;
+right:15px;
+width:45px;
+height:45px;
+line-height:45px;
+text-align:center;
+background:#e74c3c;
+color:#fff;
+text-decoration:none;
+border-radius:50%;
+font-size:22px;
+font-weight:bold;
+}
+
+.box{
+max-width:500px;
+margin:70px auto;
+background:#fff;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 15px #ddd;
+}
+
+h2{
+text-align:center;
+}
+
+label{
+display:block;
+margin:10px 0;
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:14px;
+font-size:18px;
+border:1px solid #ddd;
+border-radius:12px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+font-size:18px;
+background:#d63384;
+color:white;
+border:none;
+border-radius:12px;
+cursor:pointer;
+}
+
+#result{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#fff0f6;
+border-radius:12px;
+text-align:center;
+font-weight:bold;
+line-height:2;
+}
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="close">✖</a>
+
+<div class="box">
+
+<h2>❤️ حاسبة أفضل أيام الحمل</h2>
+
+<label>أول يوم من آخر دورة شهرية</label>
+<input type="date" id="lastPeriod">
+
+<label>طول الدورة بالأيام</label>
+
+<select id="cycleLength">
+<option value="21">21 يوم</option>
+<option value="22">22 يوم</option>
+<option value="23">23 يوم</option>
+<option value="24">24 يوم</option>
+<option value="25">25 يوم</option>
+<option value="26">26 يوم</option>
+<option value="27">27 يوم</option>
+<option value="28" selected>28 يوم</option>
+<option value="29">29 يوم</option>
+<option value="30">30 يوم</option>
+<option value="31">31 يوم</option>
+<option value="32">32 يوم</option>
+<option value="33">33 يوم</option>
+<option value="34">34 يوم</option>
+<option value="35">35 يوم</option>
+</select>
+
+<button onclick="calc()">احسب</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+function formatDate(d){
+
+const day=d.getDate();
+
+const month=d.getMonth()+1;
+
+const monthName=
+d.toLocaleDateString(
+"ar-SA-u-ca-gregory",
+{month:"long"}
+);
+
+const year=d.getFullYear();
+
+return `${day}-${month} (${monthName}) - ${year}`;
+}
+
+function calc(){
+
+const last=
+document.getElementById("lastPeriod").value;
+
+if(!last){
+alert("اختر أول يوم من آخر دورة");
+return;
+}
+
+const cycle=
+Number(
+document.getElementById("cycleLength").value
+);
+
+let ovulation=
+new Date(last);
+
+ovulation.setDate(
+ovulation.getDate()+cycle-14
+);
+
+let fertileStart=
+new Date(ovulation);
+
+fertileStart.setDate(
+fertileStart.getDate()-5
+);
+
+let fertileEnd=
+new Date(ovulation);
+
+fertileEnd.setDate(
+fertileEnd.getDate()+1
+);
+
+const result=
+document.getElementById("result");
+
+result.style.display="block";
+
+result.innerHTML=`
+❤️ أفضل أيام الحمل
+
+<br><br>
+
+من
+<br>
+${formatDate(fertileStart)}
+
+<br><br>
+
+إلى
+<br>
+${formatDate(fertileEnd)}
+
+<br><br>
+
+🩸 يوم التبويض المتوقع
+<br>
+${formatDate(ovulation)}
+`;
+
+result.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+}
+</script>
+
+</body>
+</html>
