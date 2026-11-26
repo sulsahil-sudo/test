@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حاسبة عمر الطفل</title>
+
+<style>
+body{
+font-family:Tahoma,sans-serif;
+background:#fff5fa;
+margin:0;
+padding:20px;
+}
+
+.close{
+position:fixed;
+top:15px;
+right:15px;
+width:45px;
+height:45px;
+line-height:45px;
+text-align:center;
+background:#e74c3c;
+color:white;
+text-decoration:none;
+border-radius:50%;
+font-size:22px;
+font-weight:bold;
+}
+
+.box{
+max-width:500px;
+margin:70px auto;
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 15px #ddd;
+}
+
+h2{
+text-align:center;
+color:#d63384;
+}
+
+label{
+display:block;
+margin:12px 0 8px;
+font-weight:bold;
+}
+
+input{
+width:100%;
+padding:14px;
+font-size:18px;
+border:1px solid #ddd;
+border-radius:12px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+font-size:18px;
+background:#d63384;
+color:white;
+border:none;
+border-radius:12px;
+cursor:pointer;
+}
+
+#result{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#fff0f6;
+border-radius:12px;
+line-height:2;
+font-weight:bold;
+text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="close">✖</a>
+
+<div class="box">
+
+<h2>🍼 حاسبة عمر الطفل</h2>
+
+<label>تاريخ ميلاد الطفل</label>
+
+<input type="date" id="birthDate">
+
+<button onclick="calcAge()">
+احسب العمر
+</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+function calcAge(){
+
+const birth=
+document.getElementById("birthDate").value;
+
+if(!birth){
+alert("اختر تاريخ ميلاد الطفل");
+return;
+}
+
+const birthDate=
+new Date(birth);
+
+const today=
+new Date();
+
+let years=
+today.getFullYear()-birthDate.getFullYear();
+
+let months=
+today.getMonth()-birthDate.getMonth();
+
+let days=
+today.getDate()-birthDate.getDate();
+
+if(days<0){
+months--;
+days+=30;
+}
+
+if(months<0){
+years--;
+months+=12;
+}
+
+const totalDays=
+Math.floor(
+(today-birthDate)/(1000*60*60*24)
+);
+
+const totalWeeks=
+Math.floor(totalDays/7);
+
+const result=
+document.getElementById("result");
+
+result.style.display="block";
+
+result.innerHTML=`
+🍼 عمر الطفل الحالي
+
+<br><br>
+
+${years} سنة
+
+<br>
+
+${months} شهر
+
+<br>
+
+${days} يوم
+
+<br><br>
+
+📅 العمر بالأسابيع
+
+<br><br>
+
+${totalWeeks} أسبوع
+`;
+
+result.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+}
+</script>
+
+</body>
+</html>
