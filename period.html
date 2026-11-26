@@ -1,26 +1,138 @@
-<label for="cycleLength">
-طول الدورة بالأيام (اختياري)
-</label>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة الدورة الشهرية</title>
 
-<select id="cycleLength">
-    <option value="">28 يوم (افتراضي)</option>
-    <option value="21">21 يوم</option>
-    <option value="22">22 يوم</option>
-    <option value="23">23 يوم</option>
-    <option value="24">24 يوم</option>
-    <option value="25">25 يوم</option>
-    <option value="26">26 يوم</option>
-    <option value="27">27 يوم</option>
-    <option value="28">28 يوم</option>
-    <option value="29">29 يوم</option>
-    <option value="30">30 يوم</option>
-    <option value="31">31 يوم</option>
-    <option value="32">32 يوم</option>
-    <option value="33">33 يوم</option>
-    <option value="34">34 يوم</option>
-    <option value="35">35 يوم</option>
-</select>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Tahoma,sans-serif;
+}
 
-<small class="note">
-ℹ️ إذا لم يتم الاختيار فسيتم استخدام 28 يومًا تلقائيًا.
-</small>
+body{
+    background:#f7f8fc;
+    padding:20px;
+}
+
+.container{
+    max-width:500px;
+    margin:auto;
+}
+
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+h1{
+    text-align:center;
+    color:#e91e63;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#e91e63;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.result{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    background:#fff3f7;
+    border-radius:10px;
+    line-height:2;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <h1>🩸 حاسبة الدورة الشهرية</h1>
+
+        <label>تاريخ أول يوم من آخر دورة</label>
+        <input type="date" id="lastPeriod">
+
+        <label>طول الدورة بالأيام (اختياري)</label>
+        <input type="number" id="cycleLength" placeholder="28">
+
+        <small style="color:#777;display:block;margin-top:5px;">
+            ℹ️ إذا لم يتم إدخال طول الدورة فسيتم الحساب بناءً على دورة مدتها 28 يومًا.
+        </small>
+
+        <button onclick="calculatePeriod()">
+            حساب موعد الدورة القادمة
+        </button>
+
+        <div id="result" class="result"></div>
+
+    </div>
+</div>
+
+<script>
+
+function calculatePeriod(){
+
+    const dateValue =
+        document.getElementById("lastPeriod").value;
+
+    const cycleLength =
+        parseInt(document.getElementById("cycleLength").value) || 28;
+
+    if(!dateValue){
+        alert("يرجى اختيار تاريخ الدورة");
+        return;
+    }
+
+    const startDate = new Date(dateValue);
+
+    const nextPeriod = new Date(startDate);
+    nextPeriod.setDate(
+        nextPeriod.getDate() + cycleLength
+    );
+
+    document.getElementById("result").style.display = "block";
+
+    document.getElementById("result").innerHTML = `
+        📅 موعد الدورة القادمة:
+        <strong>${nextPeriod.toLocaleDateString('ar-SA')}</strong>
+        <br><br>
+        ⏳ طول الدورة المستخدم في الحساب:
+        <strong>${cycleLength} يوم</strong>
+    `;
+}
+
+</script>
+
+</body>
+</html>
