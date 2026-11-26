@@ -22,17 +22,18 @@ height:45px;
 line-height:45px;
 text-align:center;
 background:#e74c3c;
-color:white;
+color:#fff;
 text-decoration:none;
 border-radius:50%;
 font-size:22px;
 font-weight:bold;
+z-index:999;
 }
 
 .box{
 max-width:500px;
 margin:70px auto;
-background:white;
+background:#fff;
 padding:20px;
 border-radius:20px;
 box-shadow:0 0 15px #ddd;
@@ -40,27 +41,34 @@ box-shadow:0 0 15px #ddd;
 
 h2{
 text-align:center;
+font-size:26px;
 }
 
 label{
 display:block;
-margin:10px 0;
+margin:12px 0 8px;
 font-weight:bold;
 }
 
-input,select,button{
+input,select{
 width:100%;
 padding:14px;
 font-size:18px;
-border-radius:10px;
+border:1px solid #ddd;
+border-radius:12px;
 box-sizing:border-box;
 }
 
 button{
-background:#d63384;
-color:white;
-border:none;
+width:100%;
+padding:14px;
 margin-top:15px;
+font-size:18px;
+background:#d63384;
+color:#fff;
+border:none;
+border-radius:12px;
+cursor:pointer;
 }
 
 #result{
@@ -70,8 +78,8 @@ padding:15px;
 background:#fff0f6;
 border-radius:12px;
 text-align:center;
-line-height:2;
 font-weight:bold;
+line-height:1.8;
 }
 </style>
 </head>
@@ -114,6 +122,22 @@ font-weight:bold;
 </div>
 
 <script>
+function formatDate(d){
+
+const day = d.getDate();
+const month = d.getMonth()+1;
+
+const monthName =
+d.toLocaleDateString(
+"ar-SA-u-ca-gregory",
+{month:"long"}
+);
+
+const year = d.getFullYear();
+
+return `${day}-${month} (${monthName}) - ${year}`;
+}
+
 function calcOvulation(){
 
 const last =
@@ -125,41 +149,20 @@ return;
 }
 
 const cycle =
-parseInt(
-document.getElementById("cycleLength").value
-);
+Number(document.getElementById("cycleLength").value);
 
-let ovulation =
-new Date(last);
+let ovulation = new Date(last);
 
 ovulation.setDate(
-ovulation.getDate()+cycle-14
+ovulation.getDate() + cycle - 14
 );
 
 let fertileStart =
 new Date(ovulation);
 
 fertileStart.setDate(
-fertileStart.getDate()-5
+fertileStart.getDate() - 5
 );
-
-const oDay =
-ovulation.getDate();
-
-const oMonth =
-ovulation.getMonth()+1;
-
-const oYear =
-ovulation.getFullYear();
-
-const fDay =
-fertileStart.getDate();
-
-const fMonth =
-fertileStart.getMonth()+1;
-
-const fYear =
-fertileStart.getFullYear();
 
 const result =
 document.getElementById("result");
@@ -171,7 +174,7 @@ result.innerHTML=`
 
 <br><br>
 
-${oDay}-${oMonth}-${oYear}
+${formatDate(ovulation)}
 
 <br><br>
 
@@ -179,11 +182,15 @@ ${oDay}-${oMonth}-${oYear}
 
 <br><br>
 
-من ${fDay}-${fMonth}-${fYear}
-
+من
 <br>
+${formatDate(fertileStart)}
 
-إلى ${oDay}-${oMonth}-${oYear}
+<br><br>
+
+إلى
+<br>
+${formatDate(ovulation)}
 `;
 
 result.scrollIntoView({
