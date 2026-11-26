@@ -85,14 +85,12 @@ background:#fff0f6;
 border-radius:12px;
 font-size:18px;
 font-weight:bold;
-line-height:1.8;
+line-height:2;
 }
 
-.note{
-display:block;
-margin-top:6px;
-font-size:14px;
-color:#666;
+.result-title{
+font-size:24px;
+margin-bottom:15px;
 }
 </style>
 </head>
@@ -111,7 +109,7 @@ color:#666;
 <label>طول الدورة بالأيام</label>
 
 <select id="cycleLength">
-<option value="28" selected>28 يوم (افتراضي)</option>
+<option value="28" selected>28 يوم</option>
 <option value="21">21 يوم</option>
 <option value="22">22 يوم</option>
 <option value="23">23 يوم</option>
@@ -137,10 +135,6 @@ color:#666;
 <option value="44">44 يوم</option>
 <option value="45">45 يوم</option>
 </select>
-
-<small class="note">
-ℹ️ القيمة الافتراضية هي 28 يومًا ويمكن تغييرها من القائمة.
-</small>
 
 <button onclick="calc()">احسب</button>
 
@@ -179,14 +173,62 @@ const monthName=nextDate.toLocaleDateString(
 
 const year=nextDate.getFullYear();
 
+const hijriParts=new Intl.DateTimeFormat(
+'ar-SA-u-ca-islamic-nu-latn',
+{
+day:'numeric',
+month:'numeric',
+year:'numeric'
+}
+).format(nextDate).split('/');
+
+const hijriDay=hijriParts[0];
+const hijriMonth=hijriParts[1];
+const hijriYear=hijriParts[2];
+
+const hijriMonthNames={
+1:'محرم',
+2:'صفر',
+3:'ربيع الأول',
+4:'ربيع الآخر',
+5:'جمادى الأولى',
+6:'جمادى الآخرة',
+7:'رجب',
+8:'شعبان',
+9:'رمضان',
+10:'شوال',
+11:'ذو القعدة',
+12:'ذو الحجة'
+};
+
 const result=document.getElementById("result");
 
 result.style.display="block";
 
 result.innerHTML=`
-📅 موعد الدورة القادمة<br><br>
-${dayName}<br>
-${day}/${monthNumber}/${year}
+<div class="result-title">📅 موعد الدورة القادمة</div>
+
+${dayName}
+
+<br><br>
+
+${day} / ${monthNumber} / ${year}
+
+<br>
+
+${monthName} ${year}
+
+<br><br>
+
+📿 الموافق هجري
+
+<br><br>
+
+${hijriDay} / ${hijriMonth} / ${hijriYear}
+
+<br>
+
+${hijriMonthNames[Number(hijriMonth)]} ${hijriYear} هـ
 `;
 
 result.scrollIntoView({
