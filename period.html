@@ -59,7 +59,6 @@ font-size:18px;
 border:1px solid #ddd;
 border-radius:12px;
 box-sizing:border-box;
-background:#fff;
 }
 
 button{
@@ -109,7 +108,7 @@ text-align:center;
 <option value="25">25 يوم</option>
 <option value="26">26 يوم</option>
 <option value="27">27 يوم</option>
-<option value="28" selected>28 يوم (الأشهر)</option>
+<option value="28" selected>28 يوم</option>
 <option value="29">29 يوم</option>
 <option value="30">30 يوم</option>
 <option value="31">31 يوم</option>
@@ -128,34 +127,29 @@ text-align:center;
 <script>
 function calc(){
 
-const last =
-document.getElementById("lastPeriod").value;
+const last=document.getElementById("lastPeriod").value;
 
 if(!last){
 alert("اختر أول يوم من آخر دورة شهرية");
 return;
 }
 
-const cycle =
-Number(document.getElementById("cycleLength").value);
+const cycle=Number(document.getElementById("cycleLength").value);
 
-let nextDate = new Date(last);
+let nextDate=new Date(last);
+nextDate.setDate(nextDate.getDate()+cycle);
 
-nextDate.setDate(
-nextDate.getDate() + cycle
+const day=nextDate.getDate();
+const monthNumber=nextDate.getMonth()+1;
+
+const monthName=nextDate.toLocaleDateString(
+"ar-SA-u-ca-gregory",
+{month:"long"}
 );
 
-const day =
-nextDate.getDate();
+const year=nextDate.getFullYear();
 
-const month =
-nextDate.getMonth() + 1;
-
-const year =
-nextDate.getFullYear();
-
-const hijriFull =
-new Intl.DateTimeFormat(
+const hijri=new Intl.DateTimeFormat(
 "ar-SA-u-ca-islamic",
 {
 day:"numeric",
@@ -164,17 +158,16 @@ year:"numeric"
 }
 ).format(nextDate);
 
-const result =
-document.getElementById("result");
+const result=document.getElementById("result");
 
-result.style.display = "block";
+result.style.display="block";
 
-result.innerHTML = `
+result.innerHTML=`
 📅 موعد الدورة القادمة
 
 <br><br>
 
-${year}-${month}-${day}
+${day}-${monthNumber} (${monthName}) - ${year}
 
 <br><br>
 
@@ -182,7 +175,7 @@ ${year}-${month}-${day}
 
 <br><br>
 
-${hijriFull}
+${hijri}
 `;
 
 result.scrollIntoView({
