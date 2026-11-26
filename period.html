@@ -17,52 +17,71 @@ position:relative;
 position:absolute;
 top:15px;
 right:15px;
-width:40px;
-height:40px;
-line-height:40px;
+width:50px;
+height:50px;
+line-height:50px;
 text-align:center;
 background:#e53935;
 color:white;
 text-decoration:none;
 border-radius:50%;
+font-size:26px;
 font-weight:bold;
-font-size:22px;
 }
 
 .box{
-max-width:450px;
-margin:50px auto;
+max-width:500px;
+margin:70px auto;
 background:white;
-padding:20px;
-border-radius:15px;
-box-shadow:0 0 10px #ddd;
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 15px #ddd;
 text-align:center;
 }
 
-input,button{
+h2{
+font-size:48px;
+margin-bottom:25px;
+}
+
+label{
+display:block;
+font-size:26px;
+font-weight:bold;
+margin:15px 0 10px;
+}
+
+input{
 width:100%;
-padding:12px;
-margin:10px 0;
+padding:18px;
+font-size:28px;
+text-align:center;
+border:1px solid #ddd;
+border-radius:12px;
 box-sizing:border-box;
 }
 
 button{
+width:100%;
+padding:18px;
+margin-top:15px;
+font-size:28px;
 background:#d63384;
 color:white;
 border:none;
-border-radius:8px;
+border-radius:12px;
 cursor:pointer;
 }
 
 #result{
-margin-top:20px;
-font-size:20px;
-line-height:2;
+margin-top:25px;
+font-size:30px;
 font-weight:bold;
+line-height:1.4;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <a href="index.html" class="close-btn">✖</a>
@@ -71,16 +90,13 @@ font-weight:bold;
 
 <h2>📅 حاسبة الدورة الشهرية</h2>
 
+<label>بداية الدورة الشهرية</label>
 <input type="date" id="lastPeriod">
 
-<input type="number"
-id="cycleLength"
-value="28"
-placeholder="طول الدورة بالأيام">
+<label>طول الدورة بالأيام</label>
+<input type="number" id="cycleLength" value="28">
 
-<button onclick="calc()">
-احسب
-</button>
+<button onclick="calc()">احسب</button>
 
 <div id="result"></div>
 
@@ -92,43 +108,32 @@ function calc(){
 const last=document.getElementById("lastPeriod").value;
 
 if(!last){
-alert("اختر تاريخ آخر دورة");
+alert("اختر تاريخ بداية الدورة");
 return;
 }
 
-const cycle=Number(
-document.getElementById("cycleLength").value
-);
+const cycle=Number(document.getElementById("cycleLength").value);
 
 let nextDate=new Date(last);
+nextDate.setDate(nextDate.getDate()+cycle);
 
-nextDate.setDate(
-nextDate.getDate()+cycle
-);
-
-const dayName=
-nextDate.toLocaleDateString(
+const dayName=nextDate.toLocaleDateString(
 "ar-SA-u-ca-gregory",
 {weekday:"long"}
 );
 
-const day=
-nextDate.getDate();
+const day=nextDate.getDate();
 
-const monthNumber=
-nextDate.getMonth()+1;
+const monthNumber=nextDate.getMonth()+1;
 
-const monthName=
-nextDate.toLocaleDateString(
+const monthName=nextDate.toLocaleDateString(
 "ar-SA-u-ca-gregory",
 {month:"long"}
 );
 
-const year=
-nextDate.getFullYear();
+const year=nextDate.getFullYear();
 
-const hijri=
-new Intl.DateTimeFormat(
+const hijri=new Intl.DateTimeFormat(
 "ar-SA-u-ca-islamic",
 {
 day:"numeric",
@@ -139,18 +144,10 @@ year:"numeric"
 
 document.getElementById("result").innerHTML=
 `
-📅 موعد الدورة القادمة
-
-<br><br>
-
+📅 موعد الدورة القادمة<br>
 ${dayName} ${day} - ${monthNumber} (${monthName}) ${year}
-
-<br><br>
-
-الموافق هجري
-
-<br><br>
-
+<br>
+الموافق هجري<br>
 ${hijri}
 `;
 }
