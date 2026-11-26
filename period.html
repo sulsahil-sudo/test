@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>حاسبة الدورة الشهرية</title>
+</head>
+<body>
+
+<h2>📅 حاسبة الدورة الشهرية</h2>
+
+<input type="date" id="lastPeriod">
+
+<input type="number"
+       id="cycleLength"
+       value="28"
+       placeholder="طول الدورة">
+
+<button onclick="calculate()">
+احسب
+</button>
+
+<div id="result"></div>
+
+<script>
+function calculate(){
+
+ let date =
+ new Date(
+ document.getElementById("lastPeriod").value
+ );
+
+ let cycle =
+ parseInt(
+ document.getElementById("cycleLength").value
+ );
+
+ date.setDate(date.getDate()+cycle);
+
+ document.getElementById("result").innerHTML =
+ "موعد الدورة القادم: "
+ + date.toLocaleDateString("ar-SA");
+}
+</script>
+
+</body>
+</html>
