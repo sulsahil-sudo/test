@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة الخصوبة</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Tahoma,sans-serif;
+}
+
+body{
+    background:#f7f8fc;
+    padding:20px;
+}
+
+.container{
+    max-width:500px;
+    margin:auto;
+}
+
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+h1{
+    text-align:center;
+    color:#e91e63;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#e91e63;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#d81b60;
+}
+
+.result{
+    margin-top:20px;
+    padding:15px;
+    border-radius:10px;
+    background:#fff3f7;
+    line-height:2;
+    display:none;
+}
+
+.result div{
+    margin-bottom:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>🌸 حاسبة الخصوبة</h1>
+
+<label>تاريخ أول يوم من آخر دورة</label>
+<input type="date" id="lastPeriod">
+
+<label>طول الدورة (بالأيام)</label>
+<input type="number" id="cycleLength" value="28" min="21" max="45">
+
+<button onclick="calculateFertility()">
+حساب أيام الخصوبة
+</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+</div>
+
+<script>
+
+function calculateFertility(){
+
+    const periodDate =
+        document.getElementById("lastPeriod").value;
+
+    const cycleLength =
+        parseInt(document.getElementById("cycleLength").value);
+
+    if(!periodDate){
+        alert("يرجى اختيار تاريخ الدورة");
+        return;
+    }
+
+    const lastPeriod = new Date(periodDate);
+
+    const ovulation = new Date(lastPeriod);
+    ovulation.setDate(
+        ovulation.getDate() + (cycleLength - 14)
+    );
+
+    const fertileStart = new Date(ovulation);
+    fertileStart.setDate(
+        fertileStart.getDate() - 5
+    );
+
+    const fertileEnd = new Date(ovulation);
+    fertileEnd.setDate(
+        fertileEnd.getDate() + 1
+    );
+
+    const nextPeriod = new Date(lastPeriod);
+    nextPeriod.setDate(
+        nextPeriod.getDate() + cycleLength
+    );
+
+    document.getElementById("result").style.display="block";
+
+    document.getElementById("result").innerHTML = `
+        <div>🌼 يوم التبويض المتوقع:
+        <strong>${ovulation.toLocaleDateString('ar-SA')}</strong></div>
+
+        <div>💖 بداية فترة الخصوبة:
+        <strong>${fertileStart.toLocaleDateString('ar-SA')}</strong></div>
+
+        <div>💖 نهاية فترة الخصوبة:
+        <strong>${fertileEnd.toLocaleDateString('ar-SA')}</strong></div>
+
+        <div>📅 موعد الدورة القادمة:
+        <strong>${nextPeriod.toLocaleDateString('ar-SA')}</strong></div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
