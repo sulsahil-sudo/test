@@ -22,7 +22,7 @@ height:50px;
 line-height:50px;
 text-align:center;
 background:#e53935;
-color:white;
+color:#fff;
 text-decoration:none;
 border-radius:50%;
 font-size:26px;
@@ -32,7 +32,7 @@ font-weight:bold;
 .box{
 max-width:500px;
 margin:70px auto;
-background:white;
+background:#fff;
 padding:25px;
 border-radius:20px;
 box-shadow:0 0 15px #ddd;
@@ -40,13 +40,13 @@ text-align:center;
 }
 
 h2{
-font-size:48px;
-margin-bottom:25px;
+font-size:42px;
+margin-bottom:20px;
 }
 
 label{
 display:block;
-font-size:26px;
+font-size:24px;
 font-weight:bold;
 margin:15px 0 10px;
 }
@@ -54,7 +54,7 @@ margin:15px 0 10px;
 input{
 width:100%;
 padding:18px;
-font-size:28px;
+font-size:26px;
 text-align:center;
 border:1px solid #ddd;
 border-radius:12px;
@@ -65,23 +65,27 @@ button{
 width:100%;
 padding:18px;
 margin-top:15px;
-font-size:28px;
+font-size:26px;
 background:#d63384;
-color:white;
+color:#fff;
 border:none;
 border-radius:12px;
 cursor:pointer;
 }
 
 #result{
-margin-top:25px;
-font-size:30px;
+margin-top:20px;
+padding:15px;
+font-size:28px;
 font-weight:bold;
-line-height:1.4;
+line-height:1.6;
+background:#fff0f6;
+border-radius:12px;
+display:none;
 }
 </style>
-
 </head>
+
 <body>
 
 <a href="index.html" class="close-btn">✖</a>
@@ -142,14 +146,24 @@ year:"numeric"
 }
 ).format(nextDate);
 
-document.getElementById("result").innerHTML=
+const result=document.getElementById("result");
+
+result.style.display="block";
+
+result.innerHTML=
 `
 📅 موعد الدورة القادمة<br>
 ${dayName} ${day} - ${monthNumber} (${monthName}) ${year}
-<br>
-الموافق هجري<br>
+<br><br>
+📿 الموافق هجري<br>
 ${hijri}
 `;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
 }
 </script>
 
