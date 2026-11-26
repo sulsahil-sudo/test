@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حاسبة نمو الجنين</title>
+
+<style>
+body{
+font-family:Tahoma,sans-serif;
+background:#fff5fa;
+margin:0;
+padding:20px;
+}
+
+.close{
+position:fixed;
+top:15px;
+right:15px;
+width:45px;
+height:45px;
+line-height:45px;
+text-align:center;
+background:#e74c3c;
+color:white;
+text-decoration:none;
+border-radius:50%;
+font-size:22px;
+font-weight:bold;
+}
+
+.box{
+max-width:500px;
+margin:70px auto;
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 15px #ddd;
+}
+
+h2{
+text-align:center;
+color:#d63384;
+}
+
+label{
+display:block;
+margin:12px 0 8px;
+font-weight:bold;
+}
+
+input{
+width:100%;
+padding:14px;
+font-size:18px;
+border:1px solid #ddd;
+border-radius:12px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+font-size:18px;
+background:#d63384;
+color:white;
+border:none;
+border-radius:12px;
+cursor:pointer;
+}
+
+#result{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#fff0f6;
+border-radius:12px;
+line-height:2;
+font-weight:bold;
+text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="close">✖</a>
+
+<div class="box">
+
+<h2>👶 حاسبة نمو الجنين</h2>
+
+<label>أول يوم من آخر دورة شهرية</label>
+<input type="date" id="lastPeriod">
+
+<button onclick="calcGrowth()">
+احسب
+</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+function calcGrowth(){
+
+const last=
+document.getElementById("lastPeriod").value;
+
+if(!last){
+alert("اختر أول يوم من آخر دورة");
+return;
+}
+
+const startDate=
+new Date(last);
+
+const today=
+new Date();
+
+const days=
+Math.floor(
+(today-startDate)/(1000*60*60*24)
+);
+
+const weeks=
+Math.floor(days/7);
+
+let size="";
+
+if(weeks<=4)
+size="بذرة صغيرة";
+
+else if(weeks<=8)
+size="حبة فاصوليا";
+
+else if(weeks<=12)
+size="حبة ليمون";
+
+else if(weeks<=16)
+size="ثمرة أفوكادو";
+
+else if(weeks<=20)
+size="ثمرة موز";
+
+else if(weeks<=24)
+size="حبة ذرة";
+
+else if(weeks<=28)
+size="باذنجان";
+
+else if(weeks<=32)
+size="جوز الهند";
+
+else if(weeks<=36)
+size="خس";
+
+else
+size="جاهز للولادة تقريباً";
+
+const result=
+document.getElementById("result");
+
+result.style.display="block";
+
+result.innerHTML=`
+👶 عمر الجنين الحالي
+
+<br><br>
+
+${weeks} أسبوع
+
+<br><br>
+
+📏 الحجم التقريبي
+
+<br><br>
+
+${size}
+`;
+
+result.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+}
+</script>
+
+</body>
+</html>
