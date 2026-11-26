@@ -2,43 +2,90 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>حاسبة الدورة الشهرية</title>
+
+<style>
+body{
+    font-family:Tahoma,sans-serif;
+    background:#fff5fa;
+    padding:20px;
+    text-align:center;
+}
+.box{
+    max-width:400px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+input,button{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    box-sizing:border-box;
+}
+button{
+    background:#d63384;
+    color:white;
+    border:none;
+    border-radius:8px;
+}
+#result{
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+}
+</style>
+
 </head>
 <body>
 
+<div class="box">
+
 <h2>📅 حاسبة الدورة الشهرية</h2>
+
+<label>أول يوم من آخر دورة</label>
 
 <input type="date" id="lastPeriod">
 
-<input type="number"
-       id="cycleLength"
-       value="28"
-       placeholder="طول الدورة">
+<label>طول الدورة بالأيام</label>
 
-<button onclick="calculate()">
-احسب
+<input type="number" id="cycleLength" value="28">
+
+<button onclick="calculatePeriod()">
+احسب الموعد القادم
 </button>
 
 <div id="result"></div>
 
+</div>
+
 <script>
-function calculate(){
+function calculatePeriod(){
 
- let date =
- new Date(
- document.getElementById("lastPeriod").value
- );
+const lastPeriod =
+document.getElementById("lastPeriod").value;
 
- let cycle =
- parseInt(
- document.getElementById("cycleLength").value
- );
+const cycleLength =
+parseInt(document.getElementById("cycleLength").value);
 
- date.setDate(date.getDate()+cycle);
+if(!lastPeriod){
+alert("اختر تاريخ آخر دورة");
+return;
+}
 
- document.getElementById("result").innerHTML =
- "موعد الدورة القادم: "
- + date.toLocaleDateString("ar-SA");
+let nextDate = new Date(lastPeriod);
+
+nextDate.setDate(
+nextDate.getDate()+cycleLength
+);
+
+document.getElementById("result").innerHTML =
+"موعد الدورة القادم: " +
+nextDate.toLocaleDateString("ar-SA");
+
 }
 </script>
 
