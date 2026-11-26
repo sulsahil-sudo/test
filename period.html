@@ -17,15 +17,15 @@ position:relative;
 position:absolute;
 top:15px;
 right:15px;
-width:50px;
-height:50px;
-line-height:50px;
+width:42px;
+height:42px;
+line-height:42px;
 text-align:center;
 background:#e53935;
 color:#fff;
 text-decoration:none;
 border-radius:50%;
-font-size:26px;
+font-size:18px;
 font-weight:bold;
 }
 
@@ -33,28 +33,28 @@ font-weight:bold;
 max-width:500px;
 margin:70px auto;
 background:#fff;
-padding:25px;
+padding:20px;
 border-radius:20px;
 box-shadow:0 0 15px #ddd;
 text-align:center;
 }
 
 h2{
-font-size:42px;
+font-size:28px;
 margin-bottom:20px;
 }
 
 label{
 display:block;
-font-size:24px;
+font-size:18px;
 font-weight:bold;
-margin:15px 0 10px;
+margin:12px 0 8px;
 }
 
 input{
 width:100%;
-padding:18px;
-font-size:26px;
+padding:14px;
+font-size:18px;
 text-align:center;
 border:1px solid #ddd;
 border-radius:12px;
@@ -63,9 +63,9 @@ box-sizing:border-box;
 
 button{
 width:100%;
-padding:18px;
+padding:14px;
 margin-top:15px;
-font-size:26px;
+font-size:20px;
 background:#d63384;
 color:#fff;
 border:none;
@@ -74,14 +74,14 @@ cursor:pointer;
 }
 
 #result{
+display:none;
 margin-top:20px;
 padding:15px;
-font-size:28px;
-font-weight:bold;
-line-height:1.6;
 background:#fff0f6;
 border-radius:12px;
-display:none;
+font-size:18px;
+font-weight:bold;
+line-height:1.6;
 }
 </style>
 </head>
@@ -159,9 +159,9 @@ ${dayName} ${day} - ${monthNumber} (${monthName}) ${year}
 ${hijri}
 `;
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
+result.scrollIntoView({
+behavior:"smooth",
+block:"center"
 });
 
 }
